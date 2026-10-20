@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Dread Eater — Stop procrastinating on dreaded tasks with a sloth mascot and tiny daily steps. Runs 100% offline using your local Ollama model."/>
+  <meta name="theme-color" content="#0d0d1a"/>
+  <!-- No external analytics, no tracking, no CDNs for scripts — privacy first -->
+  <title>Dread Eater 🦥</title>
+  <link rel="icon" type="image/svg+xml" href="/static/sloth.svg"/>
+  <link rel="stylesheet" href="/static/style.css"/>
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- ================================================================
+       Navigation bar
+       ================================================================ -->
+  <nav class="nav-bar" role="navigation" aria-label="Main navigation">
+    <span class="nav-logo" id="nav-logo" role="button" tabindex="0"
+          aria-label="Dread Eater home">🦥 Dread Eater</span>
+
+    <!-- Desktop tabs -->
+    <div class="nav-tabs" role="tablist">
+      <button class="nav-tab active" data-screen="dump"     role="tab" aria-label="Dump a task">
+        📥 Dump
+      </button>
+      <button class="nav-tab"        data-screen="today"    role="tab" aria-label="Today's step">
+        ☀️ Today
+      </button>
+      <button class="nav-tab"        data-screen="wins"     role="tab" aria-label="Wall of wins">
+        🏆 Wins
+      </button>
+      <button class="nav-tab"        data-screen="settings" role="tab" aria-label="Settings">
+        ⚙️ Settings
+      </button>
+    </div>
+
+    <!-- Ollama status indicator -->
+    <div class="status-bar" aria-live="polite" aria-label="Ollama status">
+      <div class="status-dot" id="status-dot" title="Ollama connection status"></div>
+      <span id="status-label" class="text-muted text-small">checking…</span>
+    </div>
+  </nav>
+
+  <!-- Mobile nav (visible < 600px) -->
+  <div class="mobile-nav" role="tablist" aria-label="Mobile navigation">
+    <button class="nav-tab active" data-screen="dump">📥 Dump</button>
+    <button class="nav-tab"       data-screen="today">☀️ Today</button>
+    <button class="nav-tab"       data-screen="wins">🏆 Wins</button>
+    <button class="nav-tab"       data-screen="settings">⚙️ Settings</button>
+  </div>
+
+  <!-- ================================================================
+       Sloth mascot (shared across all screens)
+       ================================================================ -->
+  <div class="mascot-zone" aria-hidden="true">
+    <div class="sloth-wrapper" id="sloth-wrapper">
+      <!-- Inline sloth SVG content -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 280"
+           class="sloth-svg" aria-hidden="true">
+        <!-- Branch -->
+        <g class="sloth-branch">
+          <rect x="5" y="18" width="210" height="20" rx="10" fill="#6D4C41"/>
+          <rect x="5" y="18" width="210" height="8" rx="4" fill="#8D6E63" opacity="0.5"/>
+          <ellipse cx="30"  cy="10" rx="28" ry="10" fill="#4CAF50" opacity="0.85"/>
+          <ellipse cx="16"  cy="6"  rx="16" ry="7"  fill="#388E3C" opacity="0.9"/>
+          <ellipse cx="185" cy="9"  rx="24" ry="9"  fill="#4CAF50" opacity="0.85"/>
+          <ellipse cx="200" cy="5"  rx="14" ry="6"  fill="#66BB6A" opacity="0.8"/>
+          <ellipse cx="105" cy="8"  rx="18" ry="7"  fill="#388E3C" opacity="0.7"/>
+        </g>
+        <!-- Left arm -->
+        <g class="sloth-left-arm">
+          <path d="M82,38 C65,30 55,55 62,78" stroke="#8D6E63" stroke-width="13"
+                fill="none" stroke-linecap="round"/>
+          <circle cx="62" cy="78" r="9" fill="#A1887F"/>
+          <line x1="57" y1="72" x2="51" y2="67" stroke="#6D4C41" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="62" y1="70" x2="57" y2="64" stroke="#6D4C41" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="67" y1="72" x2="63" y2="65" stroke="#6D4C41" stroke-width="2.5" stroke-linecap="round"/>
+        </g>
+        <!-- Right arm -->
+        <g class="sloth-right-arm">
+          <path d="M138,38 C155,30 165,55 158,78" stroke="#8D6E63" stroke-width="13"
+                fill="none" stroke-linecap="round"/>
+          <circle cx="158" cy="78" r="9" fill="#A1887F"/>
+          <line x1="153" y1="72" x2="147" y2="67" stroke="#6D4C41" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="158" y1="70" x2="153" y2="64" stroke="#6D4C41" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="163" y1="72" x2="159" y2="65" stroke="#6D4C41" stroke-width="2.5" stroke-linecap="round"/>
+        </g>
+        <!-- Body -->
+        <ellipse cx="110" cy="185" rx="46" ry="62" fill="#8D6E63"/>
+        <ellipse cx="110" cy="192" rx="30" ry="44" fill="#D7CCC8"/>
+        <!-- Head -->
+        <ellipse cx="110" cy="100" rx="42" ry="40" fill="#8D6E63"/>
+        <ellipse cx="110" cy="106" rx="28" ry="26" fill="#D7CCC8"/>
+        <!-- Eye whites -->
+        <ellipse cx="97"  cy="95" rx="11" ry="13" fill="white"/>
+        <ellipse cx="123" cy="95" rx="11" ry="13" fill="white"/>
+        <!-- Pupils -->
+        <g class="sloth-eyes">
+          <circle class="sloth-pupil-left"  cx="98"  cy="97" r="7" fill="#3E2723"/>
+          <circle class="sloth-pupil-right" cx="124" cy="97" r="7" fill="#3E2723"/>
+          <circle cx="101" cy="94" r="2.5" fill="white"/>
+          <circle cx="127" cy="94" r="2.5" fill="white"/>
+        </g>
+        <!-- Eyelids -->
+        <g class="sloth-eyelids">
+          <ellipse class="sloth-lid-left"  cx="97"  cy="95" rx="11" ry="0.5"
+                   fill="#8D6E63" transform-origin="97 95"/>
+          <ellipse class="sloth-lid-right" cx="123" cy="95" rx="11" ry="0.5"
+                   fill="#8D6E63" transform-origin="123 95"/>
+        </g>
+        <!-- Nose -->
+        <ellipse cx="110" cy="112" rx="5" ry="4" fill="#795548"/>
+        <circle cx="108" cy="113" r="1.2" fill="#5D4037"/>
+        <circle cx="112" cy="113" r="1.2" fill="#5D4037"/>
+        <!-- Smile -->
+        <path class="sloth-mouth"
+              d="M101,121 Q110,129 119,121"
+              stroke="#795548" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <!-- Legs -->
+        <ellipse cx="94"  cy="242" rx="16" ry="12" fill="#8D6E63"/>
+        <ellipse cx="126" cy="242" rx="16" ry="12" fill="#8D6E63"/>
+        <line x1="86"  y1="250" x2="80"  y2="256" stroke="#6D4C41" stroke-width="2" stroke-linecap="round"/>
+        <line x1="94"  y1="252" x2="90"  y2="259" stroke="#6D4C41" stroke-width="2" stroke-linecap="round"/>
+        <line x1="102" y1="250" x2="100" y2="257" stroke="#6D4C41" stroke-width="2" stroke-linecap="round"/>
+        <line x1="118" y1="250" x2="114" y2="257" stroke="#6D4C41" stroke-width="2" stroke-linecap="round"/>
+        <line x1="126" y1="252" x2="124" y2="259" stroke="#6D4C41" stroke-width="2" stroke-linecap="round"/>
+        <line x1="134" y1="250" x2="132" y2="257" stroke="#6D4C41" stroke-width="2" stroke-linecap="round"/>
+        <!-- ZZZ (sleepy state) -->
+        <g class="sloth-zzz" opacity="0">
+          <text x="150" y="85" fill="#B39DDB" font-size="14"
+                font-family="sans-serif" font-weight="bold">z</text>
+          <text x="162" y="68" fill="#B39DDB" font-size="18"
+                font-family="sans-serif" font-weight="bold">z</text>
+          <text x="176" y="48" fill="#B39DDB" font-size="22"
+                font-family="sans-serif" font-weight="bold">Z</text>
+        </g>
+        <!-- Confetti (clap/win state) -->
+        <g class="sloth-confetti" opacity="0">
+          <circle cx="50"  cy="50"  r="4" fill="#FFD54F"/>
+          <circle cx="170" cy="45"  r="4" fill="#F06292"/>
+          <circle cx="40"  cy="200" r="4" fill="#4FC3F7"/>
+          <circle cx="180" cy="190" r="4" fill="#81C784"/>
+          <circle cx="110" cy="30"  r="5" fill="#FFB74D"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Speech bubble -->
+    <div class="mascot-bubble" id="mascot-bubble" role="status" aria-live="polite">
+      "What dreaded task shall we shrink today? 🦥"
+    </div>
+  </div>
+
+  <!-- ================================================================
+       SCREEN: Dump
+       ================================================================ -->
+  <section class="screen active" id="screen-dump" role="tabpanel" aria-label="Dump a task">
+    <div class="dump-header">
+      <h1>Dump a Dreaded Task</h1>
+      <p>Write it out messy — Slothy handles the rest.</p>
+    </div>
+
+    <div class="card">
+      <form id="dump-form" novalidate>
+        <div class="settings-group">
+          <label for="task-input">What task are you dreading?</label>
+          <textarea
+            id="task-input"
+            name="task-input"
+            placeholder="e.g. Call the insurance company about that rejected claim…"
+            rows="5"
+            maxlength="4096"
+            required
+            aria-required="true"
+          ></textarea>
+        </div>
+
+        <button type="button" class="context-toggle" id="ctx-toggle"
+                aria-expanded="false" aria-controls="ctx-area">
+          + Paste context (email, letter, form…)
+        </button>
+
+        <div id="ctx-area" class="context-area" style="display:none">
+          <textarea
+            id="context-input"
+            name="context-input"
+            placeholder="Paste the email, letter text, or form questions here…"
+            rows="4"
+            maxlength="8192"
+            aria-label="Additional context"
+          ></textarea>
+        </div>
+
+        <div class="btn-row mt-md">
+          <button type="submit" class="btn btn-primary w-full" id="dump-submit">
+            <span class="btn-spinner"></span>
+            <span class="btn-label">🦥 Analyse &amp; Break It Down</span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Result area (filled dynamically) -->
+    <div id="dump-result"></div>
+  </section>
+
+  <!-- ================================================================
+       SCREEN: Today
+       ================================================================ -->
+  <section class="screen" id="screen-today" role="tabpanel" aria-label="Today's step">
+    <div id="today-content">
+      <!-- Filled by JS -->
+      <div class="card skeleton" style="height:160px"></div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       SCREEN: Wins
+       ================================================================ -->
+  <section class="screen" id="screen-wins" role="tabpanel" aria-label="Wall of wins">
+    <div id="wins-content">
+      <div class="card skeleton" style="height:200px"></div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       SCREEN: Settings
+       ================================================================ -->
+  <section class="screen" id="screen-settings" role="tabpanel" aria-label="Settings">
+    <div class="dump-header">
+      <h1 style="font-size:1.5rem">Settings</h1>
+      <p>Tune the model, the mascot's personality, and your data.</p>
+    </div>
+    <div id="settings-content">
+      <div class="card skeleton" style="height:200px"></div>
+    </div>
+  </section>
+
+</div><!-- /app-shell -->
+
+<!-- Toast container -->
+<div id="toast-container" aria-live="assertive" aria-atomic="false"></div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

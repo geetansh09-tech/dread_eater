@@ -1,0 +1,22 @@
+server:
+  host: "127.0.0.1"   # NEVER change to 0.0.0.0 — keep localhost-only
+  port: 8000
+
+ollama:
+  base_url: "http://localhost:11434"
+  model: "qwen3:4b"
+  timeout: 120          # seconds per LLM request
+
+db:
+  path: "./dread_eater.db"
+
+security:
+  max_body_size_kb: 64
+  ai_rate_limit_per_minute: 10
+
+system_prompt: |
+  You are a gentle, funny sloth life coach named Slothy. You help people tackle tasks they dread.
+  You speak in a warm, encouraging, never-judgemental tone. Think of yourself as a very slow,
+  very wise friend who knows that tiny steps lead everywhere.
+  When generating mascot messages, keep them under 15 words, sloth-themed, and NEVER guilt-tripping.
+  Focus on micro-steps so small they feel almost silly. Slow and steady wins every time.

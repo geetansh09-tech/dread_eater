@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 280" id="sloth-mascot" class="sloth-svg" aria-label="Slothy the sloth mascot">
+  <!-- Branch -->
+  <g class="sloth-branch">
+    <rect x="5" y="18" width="210" height="20" rx="10" fill="#6D4C41"/>
+    <rect x="5" y="18" width="210" height="8" rx="4" fill="#8D6E63" opacity="0.5"/>
+    <!-- Leaves -->
+    <ellipse cx="30" cy="10" rx="28" ry="10" fill="#4CAF50" opacity="0.85"/>
+    <ellipse cx="16" cy="6"  rx="16" ry="7"  fill="#388E3C" opacity="0.9"/>
+    <ellipse cx="185" cy="9" rx="24" ry="9"  fill="#4CAF50" opacity="0.85"/>
+    <ellipse cx="200" cy="5" rx="14" ry="6"  fill="#66BB6A" opacity="0.8"/>
+    <ellipse cx="105" cy="8" rx="18" ry="7"  fill="#388E3C" opacity="0.7"/>
+  </g>
+
+  <!-- Arms (hanging from branch) -->
+  <!-- Left arm -->
+  <g class="sloth-left-arm">
+    <path d="M82,38 C65,30 55,55 62,78" stroke="#8D6E63" stroke-width="13" fill="none" stroke-linecap="round"/>
+    <!-- Left hand / claw grip -->
+    <circle cx="62" cy="78" r="9" fill="#A1887F"/>
+    <line x1="57" y1="72" x2="51" y2="67" stroke="#6D4C41" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="62" y1="70" x2="57" y2="64" stroke="#6D4C41" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="67" y1="72" x2="63" y2="65" stroke="#6D4C41" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <!-- Right arm -->
+  <g class="sloth-right-arm">
+    <path d="M138,38 C155,30 165,55 158,78" stroke="#8D6E63" stroke-width="13" fill="none" stroke-linecap="round"/>
+    <!-- Right hand / claw grip -->
+    <circle cx="158" cy="78" r="9" fill="#A1887F"/>
+    <line x1="153" y1="72" x2="147" y2="67" stroke="#6D4C41" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="158" y1="70" x2="153" y2="64" stroke="#6D4C41" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="163" y1="72" x2="159" y2="65" stroke="#6D4C41" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Body -->
+  <ellipse cx="110" cy="185" rx="46" ry="62" fill="#8D6E63"/>
+  <!-- Belly -->
+  <ellipse cx="110" cy="192" rx="30" ry="44" fill="#D7CCC8"/>
+
+  <!-- Head -->
+  <ellipse cx="110" cy="100" rx="42" ry="40" fill="#8D6E63"/>
+  <!-- Face mask -->
+  <ellipse cx="110" cy="106" rx="28" ry="26" fill="#D7CCC8"/>
+
+  <!-- Eye whites -->
+  <ellipse cx="97"  cy="95" rx="11" ry="13" fill="white"/>
+  <ellipse cx="123" cy="95" rx="11" ry="13" fill="white"/>
+
+  <!-- Pupils / irises -->
+  <g class="sloth-eyes">
+    <circle class="sloth-pupil-left"  cx="98"  cy="97" r="7" fill="#3E2723"/>
+    <circle class="sloth-pupil-right" cx="124" cy="97" r="7" fill="#3E2723"/>
+    <!-- Shine -->
+    <circle cx="101" cy="94" r="2.5" fill="white"/>
+    <circle cx="127" cy="94" r="2.5" fill="white"/>
+  </g>
+
+  <!-- Eyelids (for blink — animated via CSS to scaleY) -->
+  <g class="sloth-eyelids">
+    <ellipse class="sloth-lid-left"  cx="97"  cy="95" rx="11" ry="0.5" fill="#8D6E63" transform-origin="97 95"/>
+    <ellipse class="sloth-lid-right" cx="123" cy="95" rx="11" ry="0.5" fill="#8D6E63" transform-origin="123 95"/>
+  </g>
+
+  <!-- Nose -->
+  <ellipse cx="110" cy="112" rx="5" ry="4" fill="#795548"/>
+  <!-- Nostrils -->
+  <circle cx="108" cy="113" r="1.2" fill="#5D4037"/>
+  <circle cx="112" cy="113" r="1.2" fill="#5D4037"/>
+
+  <!-- Mouth / smile -->
+  <path class="sloth-mouth" d="M101,121 Q110,129 119,121" stroke="#795548" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+
+  <!-- Leg stumps -->
+  <ellipse cx="94"  cy="242" rx="16" ry="12" fill="#8D6E63"/>
+  <ellipse cx="126" cy="242" rx="16" ry="12" fill="#8D6E63"/>
+  <!-- Claws -->
+  <line x1="86"  y1="250" x2="80"  y2="256" stroke="#6D4C41" stroke-width="2" stroke-linecap="round"/>
+  <line x1="94"  y1="252" x2="90"  y2="259" stroke="#6D4C41" stroke-width="2" stroke-linecap="round"/>
+  <line x1="102" y1="250" x2="100" y2="257" stroke="#6D4C41" stroke-width="2" stroke-linecap="round"/>
+  <line x1="118" y1="250" x2="114" y2="257" stroke="#6D4C41" stroke-width="2" stroke-linecap="round"/>
+  <line x1="126" y1="252" x2="124" y2="259" stroke="#6D4C41" stroke-width="2" stroke-linecap="round"/>
+  <line x1="134" y1="250" x2="132" y2="257" stroke="#6D4C41" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- ZZZ bubbles (hidden by default, shown in sleepy state) -->
+  <g class="sloth-zzz" opacity="0">
+    <text x="150" y="85"  fill="#B39DDB" font-size="14" font-family="sans-serif" font-weight="bold">z</text>
+    <text x="162" y="68"  fill="#B39DDB" font-size="18" font-family="sans-serif" font-weight="bold">z</text>
+    <text x="176" y="48"  fill="#B39DDB" font-size="22" font-family="sans-serif" font-weight="bold">Z</text>
+  </g>
+
+  <!-- Confetti dots (shown during clap / win state) -->
+  <g class="sloth-confetti" opacity="0">
+    <circle cx="50"  cy="50"  r="4" fill="#FFD54F"/>
+    <circle cx="170" cy="45"  r="4" fill="#F06292"/>
+    <circle cx="40"  cy="200" r="4" fill="#4FC3F7"/>
+    <circle cx="180" cy="190" r="4" fill="#81C784"/>
+    <circle cx="110" cy="30"  r="5" fill="#FFB74D"/>
+  </g>
+</svg>

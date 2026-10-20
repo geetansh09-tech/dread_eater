@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+dread_eater.db*
+.venv/
+.DS_Store
+*.log
+.env
